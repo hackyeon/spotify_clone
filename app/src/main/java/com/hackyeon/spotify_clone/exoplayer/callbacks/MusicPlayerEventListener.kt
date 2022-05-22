@@ -17,13 +17,16 @@ class MusicPlayerEventListener(
             musicService.stopForeground(false)
         }
     }
-    override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-        super.onPlayWhenReadyChanged(playWhenReady, reason)
-    }
+//    override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+//        super.onPlayWhenReadyChanged(playWhenReady, reason)
+//    }
     // Deprecated 되었음 위에 두개중 어떤거 써야할지 확인해야함
-    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        super.onPlayerStateChanged(playWhenReady, playbackState)
-    }
+//    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+//        super.onPlayerStateChanged(playWhenReady, playbackState)
+//        if(playbackState == Player.STATE_READY && !playWhenReady) {
+//            musicService.stopForeground(false)
+//        }
+//    }
 
 
 

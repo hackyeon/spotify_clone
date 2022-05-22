@@ -110,10 +110,10 @@ class MusicService: MediaBrowserServiceCompat() {
         val curSongIndex = if(curPlayingSong == null) 0 else songs.indexOf(itemToPlay)
         // 이게 Deprecated 되서 사용법 다시 확인해야함
 //        exoPlayer.prepare(musicSource.asMediaSource(dataSourceFactory))
-
         // todo mediasource 를 set 하고 따로 prepare 해야하는지 확인 필요
         exoPlayer.setMediaSource(musicSource.asMediaSource(dataSourceFactory))
 //        exoPlayer.prepare()
+
         exoPlayer.seekTo(curSongIndex, 0L)
         exoPlayer.playWhenReady = playNow
     }
