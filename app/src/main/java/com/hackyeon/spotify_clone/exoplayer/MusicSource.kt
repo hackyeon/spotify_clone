@@ -61,8 +61,7 @@ class MusicSource @Inject constructor(
             .setIconUri(song.description.iconUri)
             .build()
         MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
-
-    }
+    }.toMutableList()
 
     private val onReadyListener = mutableListOf<(Boolean) -> Unit>()
 
