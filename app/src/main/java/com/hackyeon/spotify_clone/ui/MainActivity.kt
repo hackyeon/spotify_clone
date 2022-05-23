@@ -1,8 +1,9 @@
-package com.hackyeon.spotify_clone
+package com.hackyeon.spotify_clone.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.RequestManager
+import com.hackyeon.spotify_clone.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
