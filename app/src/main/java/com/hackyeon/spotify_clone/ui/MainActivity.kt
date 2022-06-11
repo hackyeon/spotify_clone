@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var glide: RequestManager
 
+    private val mainViewModel: MainViewModel by viewModels()
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

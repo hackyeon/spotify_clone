@@ -8,25 +8,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.hackyeon.spotify_clone.R
-import com.hackyeon.spotify_clone.adapters.viewholders.SongViewHolder
+import com.hackyeon.spotify_clone.adapters.viewholders.SwipeSongViewHolder
 import com.hackyeon.spotify_clone.data.entities.Song
 import com.hackyeon.spotify_clone.databinding.ListItemBinding
 import javax.inject.Inject
 
-class SongAdapter @Inject constructor(
-    private val glide: RequestManager
-): BaseSongAdapter(R.layout.list_item) {
+class SwipeSongAdapter: BaseSongAdapter(R.layout.list_item) {
 
     override val differ = AsyncListDiffer(this, diffCallback)
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val song = songs[position]
-        if(holder is SongViewHolder) {
-            holder.bind(song, glide) {
+        if(holder is SwipeSongViewHolder) {
+            holder.bind(song) {
                 onItemClickListener?.let { click ->
                     click(song)
                 }
             }
         }
     }
-
 }
