@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.hackyeon.spotify_clone.R
+import com.hackyeon.spotify_clone.adapters.SwipeSongAdapter
 import com.hackyeon.spotify_clone.exoplayer.MusicServiceConnection
 import dagger.Module
 import dagger.Provides
@@ -33,5 +34,10 @@ object AppModule {
                 .error(R.drawable.ic_image)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
         )
+
+    @Singleton
+    @Provides
+    fun provideSwipeSongAdapter() = SwipeSongAdapter()
+
 
 }

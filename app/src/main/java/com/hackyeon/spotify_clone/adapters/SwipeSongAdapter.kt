@@ -13,7 +13,7 @@ import com.hackyeon.spotify_clone.data.entities.Song
 import com.hackyeon.spotify_clone.databinding.ListItemBinding
 import javax.inject.Inject
 
-class SwipeSongAdapter: BaseSongAdapter(R.layout.list_item) {
+class SwipeSongAdapter: BaseSongAdapter(R.layout.swipe_item) {
 
     override val differ = AsyncListDiffer(this, diffCallback)
 
