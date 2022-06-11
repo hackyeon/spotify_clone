@@ -2,13 +2,17 @@ package com.hackyeon.spotify_clone.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.RequestManager
+import com.google.android.material.snackbar.Snackbar
 import com.hackyeon.spotify_clone.R
 import com.hackyeon.spotify_clone.adapters.SwipeSongAdapter
 import com.hackyeon.spotify_clone.data.entities.Song
 import com.hackyeon.spotify_clone.databinding.ActivityMainBinding
+import com.hackyeon.spotify_clone.exoplayer.isPlaying
 import com.hackyeon.spotify_clone.exoplayer.toSong
 import com.hackyeon.spotify_clone.other.Status
 import com.hackyeon.spotify_clone.ui.viewmodels.MainViewModel
@@ -27,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     private var curPlayingSong: Song? = null
 
+    private var playbackState: PlaybackStateCompat? = null
+
     private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
@@ -41,6 +47,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindUI() {
         binding.vpSong.adapter = swipeSongAdapter
+        binding.vpSong.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(playbackState?.isPlaying == true) {
+                    mainViewModel.playOrToggleSong(swipeSongAdapter.songs[position])
+                } else {
+                    curPlayingSong = swipeSongAdapter.songs[position]
+                }
+
+            }
+        })
+
+        binding.ivPlayPause.setOnClickListener {
+            curPlayingSong?.let {
+                mainViewModel.playOrToggleSong(it, true)
+            }
+        }
     }
 
     private fun switchViewPagerToCurrentSong(song: Song) {
@@ -78,6 +101,32 @@ class MainActivity : AppCompatActivity() {
                     .load(curPlayingSong?.imageUrl)
                     .into(binding.ivCurSongImage)
                 switchViewPagerToCurrentSong(curPlayingSong?: return@observe)
+            }
+        }
+        mainViewModel.playbackState.observe(this) {
+            playbackState = it
+            binding.ivPlayPause.setImageResource(
+                if(playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
+            )
+        }
+        mainViewModel.isConnected.observe(this) {
+            it?.getContentIfNotHandled()?.let { result ->
+                when(result.status) {
+                    Status.ERROR -> {
+                        Snackbar.make(binding.root, result.message?: "오류 발생", Snackbar.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
+            }
+        }
+        mainViewModel.networkError.observe(this) {
+            it?.getContentIfNotHandled()?.let { result ->
+                when(result.status) {
+                    Status.ERROR -> {
+                        Snackbar.make(binding.root, result.message?: "오류 발생", Snackbar.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
             }
         }
 
