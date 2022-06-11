@@ -3,8 +3,11 @@ package com.hackyeon.spotify_clone.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.RequestManager
 import com.google.android.material.snackbar.Snackbar
@@ -64,6 +67,29 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.playOrToggleSong(it, true)
             }
         }
+
+        swipeSongAdapter.setItemClickListener {
+            findNavController(R.id.navHostFragment).navigate(R.id.globalActionToSongFragment)
+        }
+
+        findNavController(R.id.navHostFragment).addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id) {
+                R.id.songFragment -> hideBottomBar()
+                R.id.homeFragment -> showBottomBar()
+                else -> showBottomBar()
+            }
+        }
+    }
+
+    private fun hideBottomBar() {
+        binding.ivCurSongImage.visibility = View.GONE
+        binding.vpSong.visibility = View.GONE
+        binding.ivPlayPause.visibility = View.GONE
+    }
+    private fun showBottomBar() {
+        binding.ivCurSongImage.visibility = View.VISIBLE
+        binding.vpSong.visibility = View.VISIBLE
+        binding.ivPlayPause.visibility = View.VISIBLE
     }
 
     private fun switchViewPagerToCurrentSong(song: Song) {
